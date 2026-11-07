@@ -11,9 +11,9 @@ PhocusLookAndFeel::PhocusLookAndFeel()
     semiBoldFace = juce::Typeface::createSystemTypefaceFor (BinaryData::ChakraPetchSemiBold_ttf, (size_t) BinaryData::ChakraPetchSemiBold_ttfSize);
     boldFace = juce::Typeface::createSystemTypefaceFor (BinaryData::ChakraPetchBold_ttf, (size_t) BinaryData::ChakraPetchBold_ttfSize);
 
-    setColour (juce::PopupMenu::backgroundColourId, juce::Colour (0xff13292e));
+    setColour (juce::PopupMenu::backgroundColourId, juce::Colour (0xff142229));
     setColour (juce::PopupMenu::textColourId, text());
-    setColour (juce::PopupMenu::highlightedBackgroundColourId, orange());
+    setColour (juce::PopupMenu::highlightedBackgroundColourId, accent());
 }
 
 juce::Font PhocusLookAndFeel::font (float height, bool bold, float tracking) const
@@ -26,11 +26,11 @@ juce::Colour PhocusLookAndFeel::bandColour (int band)
 {
     switch (band)
     {
-        case 0:  return orange();
-        case 1:  return copper();
+        case 0:  return accent();
+        case 1:  return steel();
         case 2:  return mauve();
-        case 3:  return teal();
-        default: return juce::Colour (0xffb9cccf);
+        case 3:  return lilac();
+        default: return juce::Colour (0xffb9c8d2);
     }
 }
 
@@ -64,7 +64,7 @@ void PhocusLookAndFeel::drawPanel (juce::Graphics& g, juce::Rectangle<float> r, 
     if (title.isNotEmpty())
     {
         g.setFont (f);
-        g.setColour (copper());
+        g.setColour (lilac());
         g.drawText (title, r.withHeight (22.0f).translated (12.0f, 4.0f).withWidth (r.getWidth() - 24.0f), juce::Justification::centredLeft, false);
     }
 }
@@ -74,7 +74,7 @@ void PhocusLookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int w
 {
     const bool big = (bool) s.getProperties().getWithDefault ("big", false);
     const bool bipolar = (bool) s.getProperties().getWithDefault ("bipolar", false);
-    const auto colour = s.getProperties().contains ("colour") ? juce::Colour ((juce::uint32) (juce::int64) s.getProperties()["colour"]) : orange();
+    const auto colour = s.getProperties().contains ("colour") ? juce::Colour ((juce::uint32) (juce::int64) s.getProperties()["colour"]) : accent();
     const bool enabled = s.isEnabled();
 
     auto area = juce::Rectangle<float> ((float) x, (float) y, (float) w, (float) h);
@@ -100,7 +100,7 @@ void PhocusLookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int w
     // Piste
     juce::Path track;
     track.addCentredArc (c.x, c.y, arcR, arcR, 0.0f, start, end, true);
-    g.setColour (juce::Colour (0xff0a1a1d));
+    g.setColour (juce::Colour (0xff081014));
     g.strokePath (track, juce::PathStrokeType (thick, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
 
     // Valeur (dégradé orange -> mauve ; depuis le centre pour les réglages bipolaires)
@@ -111,7 +111,7 @@ void PhocusLookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int w
         juce::Path value;
         value.addCentredArc (c.x, c.y, arcR, arcR, 0.0f, juce::jmin (from, angle), juce::jmax (from, angle), true);
         juce::ColourGradient grad (colour, c.x - arcR, c.y + arcR, mauve(), c.x + arcR, c.y - arcR, false);
-        if (colour != orange())
+        if (colour != accent())
             grad = juce::ColourGradient (colour, c.x - arcR, c.y, colour.brighter (0.25f), c.x + arcR, c.y, false);
         g.setGradientFill (grad);
         g.setOpacity (enabled ? 1.0f : 0.35f);
@@ -122,9 +122,9 @@ void PhocusLookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int w
     // Corps : anneau cuivre, centre turquoise sombre
     juce::DropShadow (juce::Colours::black.withAlpha (0.6f), big ? 12 : 6, { 0, big ? 4 : 2 })
         .drawForPath (g, [&] { juce::Path p; p.addEllipse (juce::Rectangle<float> (bodyR * 2.0f, bodyR * 2.0f).withCentre (c)); return p; }());
-    g.setGradientFill (juce::ColourGradient (juce::Colour (0xff2a5961), c.x, c.y - bodyR, juce::Colour (0xff12292e), c.x, c.y + bodyR, false));
+    g.setGradientFill (juce::ColourGradient (juce::Colour (0xff2a3f4a), c.x, c.y - bodyR, juce::Colour (0xff111c22), c.x, c.y + bodyR, false));
     g.fillEllipse (juce::Rectangle<float> (bodyR * 2.0f, bodyR * 2.0f).withCentre (c));
-    g.setColour (copper().withAlpha (enabled ? 0.85f : 0.35f));
+    g.setColour (lilac().withAlpha (enabled ? 0.85f : 0.35f));
     g.drawEllipse (juce::Rectangle<float> (bodyR * 2.0f, bodyR * 2.0f).withCentre (c), big ? 1.6f : 1.0f);
 
     // Index
@@ -139,11 +139,11 @@ void PhocusLookAndFeel::drawButtonBackground (juce::Graphics& g, juce::Button& b
     const auto area = b.getLocalBounds().toFloat().reduced (0.5f);
     const auto shape = chamfered (area, juce::jmin (5.0f, area.getHeight() * 0.25f));
     const bool on = b.getToggleState();
-    const auto accent = b.getProperties().contains ("colour") ? juce::Colour ((juce::uint32) (juce::int64) b.getProperties()["colour"]) : orange();
+    const auto tint = b.getProperties().contains ("colour") ? juce::Colour ((juce::uint32) (juce::int64) b.getProperties()["colour"]) : accent();
 
     if (on)
     {
-        juce::ColourGradient grad (accent, area.getX(), area.getY(), accent == orange() ? mauve() : accent.darker (0.3f), area.getRight(), area.getBottom(), false);
+        juce::ColourGradient grad (tint, area.getX(), area.getY(), tint == accent() ? mauve() : tint.darker (0.3f), area.getRight(), area.getBottom(), false);
         g.setGradientFill (grad);
         g.fillPath (shape);
         g.setColour (juce::Colours::white.withAlpha (over ? 0.25f : 0.12f));
@@ -151,9 +151,9 @@ void PhocusLookAndFeel::drawButtonBackground (juce::Graphics& g, juce::Button& b
     }
     else
     {
-        g.setGradientFill (juce::ColourGradient (juce::Colour (0xff163338), 0.0f, area.getY(), juce::Colour (0xff0f262b), 0.0f, area.getBottom(), false));
+        g.setGradientFill (juce::ColourGradient (juce::Colour (0xff1a2a31), 0.0f, area.getY(), juce::Colour (0xff121e24), 0.0f, area.getBottom(), false));
         g.fillPath (shape);
-        g.setColour (over ? accent.withAlpha (0.8f) : edge());
+        g.setColour (over ? tint.withAlpha (0.8f) : edge());
         g.strokePath (shape, juce::PathStrokeType (1.0f));
     }
 
@@ -167,7 +167,7 @@ void PhocusLookAndFeel::drawButtonBackground (juce::Graphics& g, juce::Button& b
 void PhocusLookAndFeel::drawButtonText (juce::Graphics& g, juce::TextButton& b, bool, bool)
 {
     const bool on = b.getToggleState();
-    auto colour = on ? juce::Colour (0xff10191b) : text();
+    auto colour = on ? juce::Colour (0xff0b1216) : text();
     if (! b.isEnabled())
         colour = colour.withAlpha (0.3f);
     g.setColour (colour);
@@ -177,7 +177,7 @@ void PhocusLookAndFeel::drawButtonText (juce::Graphics& g, juce::TextButton& b, 
 
 void PhocusLookAndFeel::drawPopupMenuBackground (juce::Graphics& g, int w, int h)
 {
-    g.fillAll (juce::Colour (0xff13292e));
+    g.fillAll (juce::Colour (0xff142229));
     g.setColour (edge());
     g.drawRect (0, 0, w, h, 1);
 }
@@ -196,12 +196,12 @@ void PhocusLookAndFeel::drawPopupMenuItem (juce::Graphics& g, const juce::Rectan
     auto r = area.reduced (3, 1);
     if (isHighlighted && isActive)
     {
-        g.setGradientFill (juce::ColourGradient (orange(), (float) r.getX(), 0.0f, mauve(), (float) r.getRight(), 0.0f, false));
+        g.setGradientFill (juce::ColourGradient (accent(), (float) r.getX(), 0.0f, mauve(), (float) r.getRight(), 0.0f, false));
         g.fillRect (r);
     }
     if (isTicked)
     {
-        g.setColour (isHighlighted ? juce::Colours::white : orange());
+        g.setColour (isHighlighted ? juce::Colours::white : accent());
         g.fillRect (juce::Rectangle<float> (6.0f, 6.0f).withCentre ({ (float) r.getX() + 12.0f, (float) r.getCentreY() }));
     }
     g.setColour (! isActive ? dim().withAlpha (0.6f) : isHighlighted ? juce::Colours::white : text());
@@ -338,7 +338,7 @@ void GraphView::paint (juce::Graphics& g)
     const auto shape = L::chamfered (r, 8.0f);
 
     // Fond de l'écran
-    g.setGradientFill (juce::ColourGradient (juce::Colour (0xff0b1d21), 0.0f, r.getY(), L::screen(), 0.0f, r.getBottom(), false));
+    g.setGradientFill (juce::ColourGradient (juce::Colour (0xff0f1b20), 0.0f, r.getY(), L::screen(), 0.0f, r.getBottom(), false));
     g.fillPath (shape);
     g.saveState();
     g.reduceClipRegion (shape);
@@ -368,8 +368,8 @@ void GraphView::paint (juce::Graphics& g)
         }
         spec.lineTo (r.getRight(), r.getBottom());
         spec.closeSubPath();
-        g.setGradientFill (juce::ColourGradient (L::teal().withAlpha (0.16f), 0.0f, r.getY() + r.getHeight() * 0.4f,
-                                                 L::teal().withAlpha (0.02f), 0.0f, r.getBottom(), false));
+        g.setGradientFill (juce::ColourGradient (L::steel().withAlpha (0.16f), 0.0f, r.getY() + r.getHeight() * 0.4f,
+                                                 L::steel().withAlpha (0.02f), 0.0f, r.getBottom(), false));
         g.fillPath (spec);
     }
 
@@ -384,16 +384,16 @@ void GraphView::paint (juce::Graphics& g)
         }
         red.lineTo (r.getRight(), r.getY());
         red.closeSubPath();
-        g.setGradientFill (juce::ColourGradient (L::orange().withAlpha (0.85f), 0.0f, r.getY(),
+        g.setGradientFill (juce::ColourGradient (L::accent().withAlpha (0.85f), 0.0f, r.getY(),
                                                  L::mauve().withAlpha (0.75f), 0.0f, r.getY() + r.getHeight() * 0.6f, false));
         g.fillPath (red);
-        g.setColour (L::orange());
+        g.setColour (L::accent());
         g.strokePath (red, juce::PathStrokeType (1.2f));
     }
 
     // Échelle de la réduction
     g.setFont (lf.font (9.0f, true, 0.1f));
-    g.setColour (L::orange().withAlpha (0.7f));
+    g.setColour (L::accent().withAlpha (0.7f));
     for (float db : { 0.25f, 0.5f, 0.75f })
     {
         const float y = r.getY() + db * r.getHeight() * 0.92f;
@@ -454,7 +454,7 @@ void GraphView::paint (juce::Graphics& g)
             g.drawEllipse (circle.expanded (5.0f), 1.2f);
         }
 
-        g.setColour (on ? juce::Colour (0xff10191b) : colour);
+        g.setColour (on ? juce::Colour (0xff0b1216) : colour);
         g.setFont (lf.font (8.5f, true));
         const juce::String label = b < P::numBands ? juce::String (b + 1) : (b == P::numBands ? "L" : "H");
         g.drawText (label, circle, juce::Justification::centred, false);
@@ -1049,11 +1049,11 @@ void PhocusFacade::timerCallback()
 void PhocusFacade::paint (juce::Graphics& g)
 {
     // Fond
-    g.setGradientFill (juce::ColourGradient (juce::Colour (0xff12292e), 0.0f, 0.0f, L::ground(), 0.0f, (float) height, false));
+    g.setGradientFill (juce::ColourGradient (juce::Colour (0xff111c22), 0.0f, 0.0f, L::ground(), 0.0f, (float) height, false));
     g.fillAll();
 
     // En-tête
-    g.setColour (L::copper());
+    g.setColour (L::lilac());
     g.setFont (lookAndFeel.font (30.0f, true, 0.18f));
     g.drawText ("PHOCUS", juce::Rectangle<float> (26.0f, 14.0f, 190.0f, 40.0f), juce::Justification::centredLeft, false);
     g.setColour (L::dim());
@@ -1063,7 +1063,7 @@ void PhocusFacade::paint (juce::Graphics& g)
     g.setColour (L::dim().withAlpha (0.8f));
     g.drawText ("V" PHOCUS_VERSION, juce::Rectangle<float> ((float) width - 100.0f, 24.0f, 76.0f, 28.0f), juce::Justification::centredRight, false);
 
-    juce::ColourGradient line (L::orange(), 24.0f, 0.0f, L::mauve(), (float) width - 24.0f, 0.0f, false);
+    juce::ColourGradient line (L::accent(), 24.0f, 0.0f, L::mauve(), (float) width - 24.0f, 0.0f, false);
     g.setGradientFill (line);
     g.fillRect (24.0f, 64.0f, (float) width - 48.0f, 1.5f);
 
@@ -1107,7 +1107,7 @@ void PhocusFacade::paintOverChildren (juce::Graphics& g)
     g.setFont (lookAndFeel.font (9.0f, true, 0.2f));
     g.setColour (L::dim());
     g.drawText ("MAX REDUCTION", area.withHeight (20.0f).translated (10.0f, 6.0f), juce::Justification::centredLeft, false);
-    g.setColour (L::orange());
+    g.setColour (L::accent());
     g.setFont (lookAndFeel.font (22.0f, true, 0.04f));
     g.drawText ((shownReduction > 0.05f ? "-" : "") + juce::String (shownReduction, 1) + " dB",
                 area.withTrimmedTop (24.0f).withTrimmedLeft (10.0f).withWidth (130.0f), juce::Justification::centredLeft, false);
@@ -1120,11 +1120,11 @@ void PhocusFacade::paintOverChildren (juce::Graphics& g)
         g.setColour (L::dim());
         g.setFont (lookAndFeel.font (8.5f, true, 0.2f));
         g.drawText (i == 0 ? "IN" : "OUT", row.removeFromLeft (26.0f), juce::Justification::centredLeft, false);
-        g.setColour (juce::Colour (0xff10282d));
+        g.setColour (juce::Colour (0xff101c22));
         g.fillRect (row);
         const float level = i == 0 ? inLevel : outLevel;
         const float t = juce::jlimit (0.0f, 1.0f, (level + 60.0f) / 66.0f);
-        g.setGradientFill (juce::ColourGradient (L::teal(), row.getX(), 0.0f, L::orange(), row.getRight(), 0.0f, false));
+        g.setGradientFill (juce::ColourGradient (L::steel(), row.getX(), 0.0f, L::accent(), row.getRight(), 0.0f, false));
         g.fillRect (row.withWidth (row.getWidth() * t));
     }
 

@@ -12,18 +12,18 @@
     SAVE : panneau dessiné dans la façade (pas de fenêtre séparée dans le DAW).
     100 % : taille de la fenêtre (60 à 150 %) ; on peut aussi tirer le coin en bas à droite.
 
-    Version sombre : palette turquoise / orange / mauve de Phocus.
+    Version sombre : palette bleu nuit / bleu clair / mauve de Phocus.
 */
 namespace phragma
 {
 
 struct PresetPalette
 {
-    static juce::Colour ink()        { return juce::Colour (0xffe2ecec); }
-    static juce::Colour dimInk()     { return juce::Colour (0xff8fb2b6); }
-    static juce::Colour line()       { return juce::Colour (0xff2c5e66); }
-    static juce::Colour blue()       { return juce::Colour (0xfff07a3a); }
-    static juce::Colour cyan()       { return juce::Colour (0xff9b5bd6); }
+    static juce::Colour ink()        { return juce::Colour (0xffdde8ee); }
+    static juce::Colour dimInk()     { return juce::Colour (0xff8aa0ac); }
+    static juce::Colour line()       { return juce::Colour (0xff2b4250); }
+    static juce::Colour blue()       { return juce::Colour (0xff3cd2f8); }
+    static juce::Colour cyan()       { return juce::Colour (0xff9850e8); }
 
     static juce::Path chamfered (juce::Rectangle<float> r, float cut)
     {
@@ -51,8 +51,8 @@ class PresetLookAndFeel final : public juce::LookAndFeel_V4
 public:
     explicit PresetLookAndFeel (FontMaker f) : font (std::move (f))
     {
-        setColour (juce::PopupMenu::backgroundColourId, juce::Colour (0xff13292e));
-        setColour (juce::TextEditor::backgroundColourId, juce::Colour (0xff0b1c20));
+        setColour (juce::PopupMenu::backgroundColourId, juce::Colour (0xff142229));
+        setColour (juce::TextEditor::backgroundColourId, juce::Colour (0xff0b1418));
     }
 
     FontMaker font;
@@ -82,8 +82,8 @@ public:
         }
 
         const bool name = id == "presetName";
-        g.setGradientFill (juce::ColourGradient (name ? juce::Colour (0xff163338) : juce::Colour (0xff21494f), 0.0f, area.getY(),
-                                                 name ? juce::Colour (0xff1a3c42) : juce::Colour (0xff183a40), 0.0f, area.getBottom(), false));
+        g.setGradientFill (juce::ColourGradient (name ? juce::Colour (0xff1a2a31) : juce::Colour (0xff22343c), 0.0f, area.getY(),
+                                                 name ? juce::Colour (0xff1c2c33) : juce::Colour (0xff17252b), 0.0f, area.getBottom(), false));
         g.fillPath (shape);
 
         if (down)
@@ -154,7 +154,7 @@ public:
 
     void drawPopupMenuBackground (juce::Graphics& g, int w, int h) override
     {
-        g.fillAll (juce::Colour (0xff13292e));
+        g.fillAll (juce::Colour (0xff142229));
         g.setColour (PresetPalette::line());
         g.drawRect (0, 0, w, h, 1);
     }
@@ -167,7 +167,7 @@ public:
 
         if (isSeparator)
         {
-            g.setColour (juce::Colour (0xff2c5e66));
+            g.setColour (juce::Colour (0xff2b4250));
             g.fillRect (area.reduced (10, 0).withHeight (1).withY (area.getCentreY()));
             return;
         }
@@ -209,7 +209,7 @@ public:
     // Champ du nom
     void fillTextEditorBackground (juce::Graphics& g, int w, int h, juce::TextEditor&) override
     {
-        g.setColour (juce::Colour (0xff0b1c20));
+        g.setColour (juce::Colour (0xff0b1418));
         g.fillRect (0, 0, w, h);
     }
 
@@ -310,10 +310,10 @@ public:
 
         const auto shape = P::chamfered (box.toFloat(), 14.0f);
         juce::DropShadow (juce::Colour (0xff000000).withAlpha (0.6f), 18, { 0, 6 }).drawForPath (g, shape);
-        g.setGradientFill (juce::ColourGradient (juce::Colour (0xff1d454c), 0.0f, (float) box.getY(),
-                                                 juce::Colour (0xff14323a), 0.0f, (float) box.getBottom(), false));
+        g.setGradientFill (juce::ColourGradient (juce::Colour (0xff1e2f36), 0.0f, (float) box.getY(),
+                                                 juce::Colour (0xff142229), 0.0f, (float) box.getBottom(), false));
         g.fillPath (shape);
-        g.setColour (juce::Colour (0xff2c5e66));
+        g.setColour (juce::Colour (0xff2b4250));
         g.strokePath (shape, juce::PathStrokeType (1.3f));
 
         const auto inner = box.toFloat().reduced (28.0f, 0.0f);

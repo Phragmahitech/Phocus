@@ -155,7 +155,7 @@ namespace
     {
         static const std::vector<FactoryPreset> list {
             { "DEFAULT", {} },
-            { "DE-ESS", { { "depth", 7.0f }, { "sharpness", 3.0f }, { "selectivity", 2.5f }, { "attack", 1.0f }, { "release", 30.0f },
+            { "DE-ESS", { { "depth", 6.0f }, { "sharpness", 3.0f }, { "selectivity", 2.5f }, { "attack", 1.0f }, { "release", 30.0f },
                           { "lowCut", 1.0f }, { "lowCutFreq", 3500.0f }, { "lowCutSlope", 2.0f },
                           { "b3Freq", 7000.0f }, { "b3Sens", 5.0f }, { "b3Q", 0.8f } } },
             { "VOCAL SMOOTH", { { "depth", 5.0f }, { "sharpness", 5.0f }, { "selectivity", 4.0f }, { "attack", 4.0f }, { "release", 60.0f },
@@ -169,7 +169,7 @@ namespace
                              { "highCut", 1.0f }, { "highCutFreq", 400.0f }, { "highCutSlope", 2.0f }, { "b3Sens", 0.0f }, { "oversample", 2.0f } } },
             { "MIX BUS GENTLE", { { "depth", 3.0f }, { "sharpness", 2.0f }, { "selectivity", 3.0f }, { "attack", 10.0f }, { "release", 120.0f },
                                   { "mix", 60.0f }, { "resolution", 2.0f } } },
-            { "DE-BLEED (SIDECHAIN)", { { "mode", 1.0f }, { "depth", 10.0f }, { "sharpness", 4.0f }, { "selectivity", 1.0f }, { "attack", 2.0f },
+            { "DE-BLEED (SIDECHAIN)", { { "mode", 1.0f }, { "depth", 9.0f }, { "sharpness", 4.0f }, { "selectivity", 1.0f }, { "attack", 2.0f },
                                         { "release", 80.0f }, { "sidechain", 1.0f }, { "b3Sens", 0.0f } } },
         };
         return list;

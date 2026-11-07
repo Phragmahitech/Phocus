@@ -482,10 +482,12 @@ private:
         const float sel = std::clamp (s.selectivity, 0.0f, 10.0f);
         const float depth = std::clamp (s.depth, 0.0f, 20.0f);
 
-        const float threshold = 1.5f + 1.1f * sel;
-        const float sharpFactor = 0.55f + 0.09f * sharp;
-        const float envelopeOct = 1.1f - 0.085f * sharp;
-        const float spreadOct = 0.36f - 0.033f * sharp;
+        // Calage v1.1 : le réglage par défaut (sharpness 4, selectivity 3.5, depth 5) correspond à
+        // l'ancien maximum de précision (10 / 10) avec l'ancienne depth 1. Les plages vont plus loin.
+        const float threshold = 6.0f + 1.6f * sel;                    // dB au-dessus de l'enveloppe : 6 .. 22
+        const float sharpFactor = 1.0f + 0.12f * sharp;               // 1 .. 2.2
+        const float envelopeOct = 0.6f * std::exp (-0.18f * sharp);   // 0.6 .. 0.1 octave
+        const float spreadOct = 0.06f * std::exp (-0.18f * sharp);    // 0.06 .. 0.01 octave
         const float knee = 6.0f;
 
         // Enveloppe robuste : un premier lissage, on écrête les pics au-dessus, on relisse
@@ -501,9 +503,11 @@ private:
             top = std::max (top, lev[k]);
         const float floorDb = std::max (top - 80.0f, -110.0f);
 
-        const float softGain = depth * 0.16f * sharpFactor;
-        const float hardGain = depth * 0.22f * sharpFactor;
-        const float absThreshold = -20.0f - 3.5f * depth;
+        // Depth : 5 = douce, la courbe se raidit vers 20 (environ 6 fois plus de réduction qu'à 5)
+        const float depthCurve = depth * 0.032f * (1.0f + 2.0f * (depth / 20.0f) * (depth / 20.0f));
+        const float softGain = depthCurve * sharpFactor;
+        const float hardGain = depthCurve * 1.4f * sharpFactor;
+        const float absThreshold = -20.0f - 0.7f * depth * (1.0f + depth / 10.0f);
 
         for (int k = 0; k < bins; ++k)
         {

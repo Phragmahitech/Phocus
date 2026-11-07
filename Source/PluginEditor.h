@@ -4,26 +4,26 @@
 #include "PresetBar.h"
 
 /**
-    Look de Phocus : celui du skin Serum 2 « Phragma » — panneaux turquoise moyen-sombre,
-    texte clair, accents orange (#F07A3A), mauve (#9B5BD6) et cuivre (#C29A5B), écrans en
-    dégradé orange -> mauve. Police Chakra Petch embarquée.
+    Look de Phocus : celui du skin Serum 2 « Phragma electricity » — panneaux bleu nuit,
+    texte clair, accents bleu clair (#3CD2F8) et mauve (#9850E8), lilas (#C898F8),
+    écrans en dégradé bleu clair -> mauve. Police Chakra Petch embarquée.
 */
 class PhocusLookAndFeel final : public juce::LookAndFeel_V4
 {
 public:
     PhocusLookAndFeel();
 
-    static juce::Colour ground()      { return juce::Colour (0xff0d1d21); }
-    static juce::Colour panelTop()    { return juce::Colour (0xff1f4950); }
-    static juce::Colour panelBottom() { return juce::Colour (0xff17383e); }
-    static juce::Colour edge()        { return juce::Colour (0xff2c5e66); }
-    static juce::Colour screen()      { return juce::Colour (0xff081619); }
-    static juce::Colour text()        { return juce::Colour (0xffe2ecec); }
-    static juce::Colour dim()         { return juce::Colour (0xff8fb2b6); }
-    static juce::Colour orange()      { return juce::Colour (0xfff07a3a); }
-    static juce::Colour mauve()       { return juce::Colour (0xff9b5bd6); }
-    static juce::Colour copper()      { return juce::Colour (0xffc29a5b); }
-    static juce::Colour teal()        { return juce::Colour (0xff4fc3c9); }
+    static juce::Colour ground()      { return juce::Colour (0xff0e181c); }
+    static juce::Colour panelTop()    { return juce::Colour (0xff1e2f36); }
+    static juce::Colour panelBottom() { return juce::Colour (0xff17252b); }
+    static juce::Colour edge()        { return juce::Colour (0xff2b4250); }
+    static juce::Colour screen()      { return juce::Colour (0xff0b1418); }
+    static juce::Colour text()        { return juce::Colour (0xffdde8ee); }
+    static juce::Colour dim()         { return juce::Colour (0xff8aa0ac); }
+    static juce::Colour accent()      { return juce::Colour (0xff3cd2f8); }   // bleu clair
+    static juce::Colour mauve()       { return juce::Colour (0xff9850e8); }
+    static juce::Colour lilac()       { return juce::Colour (0xffc898f8); }
+    static juce::Colour steel()       { return juce::Colour (0xff5a8cf0); }
 
     /** Couleur d'une bande : 0..3 bandes, 4 LOW CUT, 5 HIGH CUT. */
     static juce::Colour bandColour (int band);
