@@ -1,0 +1,49 @@
+Phocus by Phragma - installation
+================================
+
+macOS (Apple Silicon et Intel, macOS 10.13 ou plus recent)
+----------------------------------------------------------
+1. Copie "Phocus.vst3" dans :
+       ~/Library/Audio/Plug-Ins/VST3/
+   (Finder > menu Aller > Aller au dossier... > colle ce chemin)
+   Ne garde qu'UNE copie du plugin.
+
+2. Le plugin n'est pas notarise par Apple : retire le marqueur de telechargement
+   dans l'app Terminal :
+
+       xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/VST3/Phocus.vst3
+
+3. Relance ton DAW et rescanne les plugins.
+
+
+Windows (64 bits)
+-----------------
+1. Copie le DOSSIER "Phocus.vst3" en entier dans :
+       C:\Program Files\Common Files\VST3\
+
+2. Relance ton DAW et rescanne les plugins.
+
+
+Utilisation
+-----------
+Phocus repere les resonances (les pics qui depassent le spectre autour d'eux) et
+les creuse au moment ou elles apparaissent. Monte DEPTH jusqu'a entendre trop de
+traitement, puis recule un peu.
+
+RESONANCE  SOFT (peu dependant du niveau) / HARD (plus fort sur ce qui est fort),
+           DEPTH, SHARPNESS (encoches plus etroites et plus profondes),
+           SELECTIVITY (seuil : haut = seulement les plus gros pics).
+ECRAN      Reduction en orange / mauve, courbe de sensibilite en blanc.
+           Glisser un noeud : frequence et sensibilite. Cmd/Ctrl : Q. Maj : fin.
+           Alt + clic : ecoute de la bande. Double-clic : bande on/off.
+           Clic droit : menu de la bande. Molette : Q.
+BANDE      4 bandes (PEAK, LO SHELF, HI SHELF, BAND SH, REJECT, TILT) + LOW CUT
+           et HIGH CUT. Une bande montee rend la detection plus sensible.
+SPEED      ATTACK et RELEASE (references a 1 kHz, plus rapides dans l'aigu).
+STEREO     L/R ou M/S, LINK, BALANCE (aussi par bande : BAL).
+QUALITY    OVERSAMPLE (finesse en frequence, utile dans le grave) et RESOLUTION
+           (cadence des analyses), en temps reel et pour le rendu hors ligne.
+SIDECHAIN  La detection ecoute l'entree sidechain ; LISTEN pour l'entendre.
+OUTPUT     MIX, TRIM (sur le signal traite), DELTA (ce qui est retire), BYPASS.
+
+Latence : 2048 echantillons jusqu'a 64 kHz (4096 a 96 kHz, 8192 a 192 kHz).
